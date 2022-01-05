@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./jigsaw.css" />
+    <title>Jigsaw Puzzle</title>
+  </head>
+  <body>
+    <button id="level1" onclick="onButtonClick1()" class="button">
+      Level 1
+    </button>
+    <button id="level2" onclick="onButtonClick2()" class="button">
+      Level 2
+    </button>
+    <button id="level3" onclick="onButtonClick3()" class="button">
+      Level 3
+    </button>
+    <form>
+      <label id="labelimg" class="hide">Upload an image</label>
+      <input
+        type="file"
+        accept="images/jpeg, images/jpg, images/png"
+        id="userimg"
+        name="userimg"
+        class="hide"
+      />
+    </form>
+    <!-- <button id="level1" onclick="onButtonClick()" class="button">
+      Level 1
+    </button>
+    <button id="level2" onclick="onButtonClick()" class="button">
+      Level 2
+    </button>
+    <button id="level3" onclick="onButtonClick()" class="button">
+      Level 3
+    </button> -->
+    <canvas id="canvas"></canvas>
+    <script type="text/javascript">
+      document.getElementById("userimg").addEventListener("change", (event) => {
+        console.log("Event Detected");
+        const imgfile = document.getElementById("userimg").files[0];
+        const imgurl = window.URL.createObjectURL(imgfile);
+
+        console.log("PATH: " + imgurl);
+        let myimg = new Image();
+        myimg.addEventListener("load", (event) => {
+          document.getElementById("canvas").width = myimg.width;
+          document.getElementById("canvas").height = myimg.height;
+          start(myimg);
+        });
+        myimg.src = imgurl;
+      });
+
+      let rows, cols, pieces;
+      function onButtonClick1() {
+        document.getElementById("userimg").className = "show";
+        document.getElementById("labelimg").className = "show";
+        rows = 1;
+        cols = 2;
+        pieces = [
+          { col: 1, row: 0 },
+          { col: 0, row: 0 },
+        ];
+      }
+      function onButtonClick2() {
+        document.getElementById("userimg").className = "show";
+        document.getElementById("labelimg").className = "show";
+        rows = 1;
+        cols = 3;
+        pieces = [
+          { col: 1, row: 0 },
+          { col: 0, row: 0 },
+          { col: 2, row: 0 },
+        ];
+      }
+      function onButtonClick3() {
+        document.getElementById("userimg").className = "show";
+        document.getElementById("labelimg").className = "show";
+        rows = 2;
+        cols = 5;
+        pieces = [
+          { col: 1, row: 0 },
+          { col: 0, row: 0 },
+          { col: 3, row: 0 },
+          { col: 4, row: 0 },
+          { col: 2, row: 0 },
+          { col: 0, row: 1 },
+          { col: 1, row: 1 },
+          { col: 2, row: 1 },
+          { col: 3, row: 1 },
+          { col: 4, row: 1 },
+        ];
+      }
+
+      function start(img) {
+        let canvas = document.getElementById("canvas");
+        let ctx = canvas.getContext("2d");
+        let cw = canvas.width;
+        let ch = canvas.height;
+        // let rows=5;
+        // let cols=5;
+        // let rows = 1;
+        // let cols = 2;
+        let iw = (canvas.width = img.width);
+        let ih = (canvas.height = img.height);
+        let pieceWidth = iw / cols;
+        let pieceHeight = ih / rows;
+
+        shuffle(pieces);
+
+        let i = 0;
+        for (let y = 0; y < rows; y++) {
+          for (let x = 0; x < cols; x++) {
+            let p = pieces[i++];
+            ctx.drawImage(
+              img,
+              x * pieceWidth,
+              y * pieceHeight,
+              pieceWidth,
+              pieceHeight,
+              p.col * pieceWidth,
+              p.row * pieceHeight,
+              pieceWidth,
+              pieceHeight
+            );
+          }
+        }
+      }
+
+      function shuffle(a) {
+        for (
+          let j, x, i = a.length;
+          i;
+          j = Math.floor(Math.random() * i), x = a[--i], a[i] = a[j], a[j] = x
+        );
+        return a;
+      }
+
+      function onButtonClick() {
+        document.getElementById("userimg").className = "show";
+        document.getElementById("labelimg").className = "show";
+      }
+    </script>
+  </body>
+</html>
