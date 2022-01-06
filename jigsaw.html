@@ -35,12 +35,17 @@
     <button id="level3" onclick="onButtonClick()" class="button">
       Level 3
     </button> -->
-    <canvas id="canvas"></canvas>
+    <div id="container">
+      <canvas id="canvas" class="stack"></canvas>
+      <map id="puzzlemap" class="stack" name="puzzlemap"></map>
+    </div>
+    <!-- <canvas id="canvasBreak"></canvas> -->
     <script type="text/javascript">
+      var imgurl;
       document.getElementById("userimg").addEventListener("change", (event) => {
         console.log("Event Detected");
         const imgfile = document.getElementById("userimg").files[0];
-        const imgurl = window.URL.createObjectURL(imgfile);
+        imgurl = window.URL.createObjectURL(imgfile);
 
         console.log("PATH: " + imgurl);
         let myimg = new Image();
@@ -124,8 +129,23 @@
               pieceWidth,
               pieceHeight
             );
+            let area = document.createElement("area");
+            area.shape = "rect";
+            area.coords = `${x * pieceWidth},${y * pieceHeight},${
+              (x + 1) * pieceWidth
+            },${(y + 1) * pieceHeight}`;
+            area.id = `a${x},${y}`;
+            area.href = `javascript:alert("Pressed ${x},${y}")`;
+            puzzlemap.appendChild(area);
           }
         }
+        let transparent_img = new Image();
+        transparent_img.src = imgurl;
+        transparent_img.style.opacity = 0;
+        transparent_img.setAttribute("usemap", "#puzzlemap");
+        transparent_img.classList.add("stack");
+        transparent_img.style["z-index"] = 1;
+        document.getElementById("container").appendChild(transparent_img);
       }
 
       function shuffle(a) {
