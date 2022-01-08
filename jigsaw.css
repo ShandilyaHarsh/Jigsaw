@@ -1,19 +1,158 @@
+* {
+  font: 20px monospace;
+}
+
+body {
+  margin: auto;
+  text-align: center;
+  color: #fefefe;
+  background-color: #120b1e;
+}
+
+/* to hide any class through JS, just add this class to the classlist */
 .hide {
   display: none;
 }
+/* style the replay button */
+.replaybut {
+  position: relative;
+  text-align: end;
+  margin-right: 10px;
+}
+
+/* to show any hidden div, remove the hide class from class list and add this class */
 .show {
   display: block;
+  text-align: center;
+  margin: auto;
+  padding: 10px;
 }
-body {
-  font-family: "Tahoma";
-}
+
 #container {
   display: grid;
 }
+
+/* style the canvass and the map area */
 .stack {
   grid-row: 1;
   grid-column: 1;
+  text-align: center;
+  margin: auto;
 }
 canvas {
   z-index: 0;
+}
+#transparent {
+  z-index: 1;
+  opacity: 0;
+}
+
+/* to determine the flex direction see the image width and if the image width is too large, use the
+flex direction as coloumn */
+.main {
+  display: flex;
+  flex-direction: row;
+}
+.other {
+  display: flex;
+  flex-direction: column;
+}
+
+.stack {
+  padding: 10px;
+}
+.real {
+  margin-top: 11px;
+  margin-left: 11px;
+}
+
+/* style the replay button in the modal */
+.modalbutton {
+  font: 20px monospace;
+  text-decoration: none;
+  background-color: #eeeeee;
+  color: #333333;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #cccccc;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #cccccc;
+}
+.modalbutton:hover {
+  background-color: #555555;
+  color: white;
+}
+
+/* style the modal */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 2; /* Sit on top */
+  left: 0;
+  color: #120b1e;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+/* style the button */
+.button {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  border: 2px solid #555555;
+  font: 20px monospace;
+}
+.button:hover {
+  background-color: #555555;
+  color: white;
+}
+
+.levelbutton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+/* style the intro */
+.intro {
+  width: 75%;
+  text-align: center;
+  margin: auto;
 }

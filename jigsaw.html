@@ -3,164 +3,65 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="./jigsaw.css" />
     <title>Jigsaw Puzzle</title>
+    <link rel="stylesheet" href="./jigsaw.css" />
   </head>
   <body>
-    <button id="level1" onclick="onButtonClick1()" class="button">
-      Level 1
-    </button>
-    <button id="level2" onclick="onButtonClick2()" class="button">
-      Level 2
-    </button>
-    <button id="level3" onclick="onButtonClick3()" class="button">
-      Level 3
-    </button>
+    <!-- Introduction to the game -->
+    <div class="intro">
+      <p>
+        Choose the level of the Jigsaw Puzzle. Level 1 being the picture would
+        be divided into 2 parts, Level 2 being the picture would be divided into
+        3 parts, Level 3 being the picture would be divided into 10 parts.
+      </p>
+    </div>
+    <!-- Levels of the Jigsaw Puzzle -->
+    <div class="levelbutton">
+      <button id="level" onclick="onButtonClick(1)" class="button">
+        Level 1
+      </button>
+      <button id="level" onclick="onButtonClick(2)" class="button">
+        Level 2
+      </button>
+      <button id="level" onclick="onButtonClick(3)" class="button">
+        Level 3
+      </button>
+    </div>
+    <!-- Replay Button -->
+    <div class="replaybut">
+      <a class="modalbutton" href="./jigsaw.html">Replay</a>
+    </div>
+    <!-- Modal to display after the game is completed -->
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>
+          Congratulations!!!! You have completed the Jigsaw and are a Jigsaw
+          Expert now :)
+        </p>
+        <a class="modalbutton" href="./jigsaw.html">Replay</a>
+      </div>
+    </div>
+    <!-- Form with an input element to take image as input -->
     <form>
-      <label id="labelimg" class="hide">Upload an image</label>
+      <label id="labelimg" class="hide"><h4>Upload an image</h4></label>
       <input
         type="file"
-        accept="images/jpeg, images/jpg, images/png"
+        accept="image/*"
         id="userimg"
         name="userimg"
         class="hide"
       />
     </form>
-    <!-- <button id="level1" onclick="onButtonClick()" class="button">
-      Level 1
-    </button>
-    <button id="level2" onclick="onButtonClick()" class="button">
-      Level 2
-    </button>
-    <button id="level3" onclick="onButtonClick()" class="button">
-      Level 3
-    </button> -->
-    <div id="container">
-      <canvas id="canvas" class="stack"></canvas>
-      <map id="puzzlemap" class="stack" name="puzzlemap"></map>
+    <!-- Canvas and Map area to shuffle the pieces -->
+    <div class="main" id="gallery">
+      <div id="container" class="jig">
+        <canvas id="canvas" class="stack"></canvas>
+        <map id="puzzlemap" class="stack" name="puzzlemap"></map>
+      </div>
+      <div id="append" class="real"></div>
     </div>
-    <!-- <canvas id="canvasBreak"></canvas> -->
-    <script type="text/javascript">
-      var imgurl;
-      document.getElementById("userimg").addEventListener("change", (event) => {
-        console.log("Event Detected");
-        const imgfile = document.getElementById("userimg").files[0];
-        imgurl = window.URL.createObjectURL(imgfile);
 
-        console.log("PATH: " + imgurl);
-        let myimg = new Image();
-        myimg.addEventListener("load", (event) => {
-          document.getElementById("canvas").width = myimg.width;
-          document.getElementById("canvas").height = myimg.height;
-          start(myimg);
-        });
-        myimg.src = imgurl;
-      });
-
-      let rows, cols, pieces;
-      function onButtonClick1() {
-        document.getElementById("userimg").className = "show";
-        document.getElementById("labelimg").className = "show";
-        rows = 1;
-        cols = 2;
-        pieces = [
-          { col: 1, row: 0 },
-          { col: 0, row: 0 },
-        ];
-      }
-      function onButtonClick2() {
-        document.getElementById("userimg").className = "show";
-        document.getElementById("labelimg").className = "show";
-        rows = 1;
-        cols = 3;
-        pieces = [
-          { col: 1, row: 0 },
-          { col: 0, row: 0 },
-          { col: 2, row: 0 },
-        ];
-      }
-      function onButtonClick3() {
-        document.getElementById("userimg").className = "show";
-        document.getElementById("labelimg").className = "show";
-        rows = 2;
-        cols = 5;
-        pieces = [
-          { col: 1, row: 0 },
-          { col: 0, row: 0 },
-          { col: 3, row: 0 },
-          { col: 4, row: 0 },
-          { col: 2, row: 0 },
-          { col: 0, row: 1 },
-          { col: 1, row: 1 },
-          { col: 2, row: 1 },
-          { col: 3, row: 1 },
-          { col: 4, row: 1 },
-        ];
-      }
-
-      function start(img) {
-        let canvas = document.getElementById("canvas");
-        let ctx = canvas.getContext("2d");
-        let cw = canvas.width;
-        let ch = canvas.height;
-        // let rows=5;
-        // let cols=5;
-        // let rows = 1;
-        // let cols = 2;
-        let iw = (canvas.width = img.width);
-        let ih = (canvas.height = img.height);
-        let pieceWidth = iw / cols;
-        let pieceHeight = ih / rows;
-
-        shuffle(pieces);
-
-        let i = 0;
-        for (let y = 0; y < rows; y++) {
-          for (let x = 0; x < cols; x++) {
-            let p = pieces[i++];
-            ctx.drawImage(
-              img,
-              x * pieceWidth,
-              y * pieceHeight,
-              pieceWidth,
-              pieceHeight,
-              p.col * pieceWidth,
-              p.row * pieceHeight,
-              pieceWidth,
-              pieceHeight
-            );
-            let area = document.createElement("area");
-            area.shape = "rect";
-            area.coords = `${x * pieceWidth},${y * pieceHeight},${
-              (x + 1) * pieceWidth
-            },${(y + 1) * pieceHeight}`;
-            area.id = `a${x},${y}`;
-            area.href = `javascript:alert("Pressed ${x},${y}")`;
-            puzzlemap.appendChild(area);
-          }
-        }
-        let transparent_img = new Image();
-        transparent_img.src = imgurl;
-        transparent_img.style.opacity = 0;
-        transparent_img.setAttribute("usemap", "#puzzlemap");
-        transparent_img.classList.add("stack");
-        transparent_img.style["z-index"] = 1;
-        document.getElementById("container").appendChild(transparent_img);
-      }
-
-      function shuffle(a) {
-        for (
-          let j, x, i = a.length;
-          i;
-          j = Math.floor(Math.random() * i), x = a[--i], a[i] = a[j], a[j] = x
-        );
-        return a;
-      }
-
-      function onButtonClick() {
-        document.getElementById("userimg").className = "show";
-        document.getElementById("labelimg").className = "show";
-      }
-    </script>
+    <script src="./jigsaw.js"></script>
   </body>
 </html>
